@@ -8,16 +8,15 @@ df2 = df.rename({'a': 'X', 'b': 'Y'}, axis='columns')
 #--Alternatively, specify inplace=True:
 df.rename({'a': 'X', 'b': 'Y'}, axis=1, inplace=True)
 
-#reading data in using pyspark
-STG_1_data = spark.read.csv("s3://tfsdl-aigbi-test/S1_09_17_2022data_all.csv", inferSchema=True, header=True)
-
-
-#remove rows where column contains certain characters
+# REMOVE ROWS WHERE COLUMN CONTAINS CERTAIN CHARACTERS
 dfa = df_all[(~df_all['Value'].str.contains("x"))]
 dfa
 
-# remove rows where the 'Value' column contains 'x' or ',' string, and assign to new dataframe "dfa_2"
+# REMOVE ROWS WHERE THE "VALUE" COLUMN CONTAINS "X" OR ","" STRING, AND ASSIGN TO NEW DATAFRAME "DFA_2"
 dfa_2 = df[(~df['Value'].str.contains("x|,", na=False))]
+
+# COPY DATAFRAME TO NEW ONE BRINGING IN ONLY CERTAIN COLUMNS
+new = old[['A', 'C', 'D']].copy()
 
 # JOIN VALUES IN LIST 
 list =  ['Ryan', 'is', 'the best']
@@ -25,14 +24,16 @@ j = '|'.join(list)
 j
 # 'Ryan|is|the best'
 
-# split column and add new columns to df
+# SPLIT COLUMN AND ADD NEW COLUMNS TO DF
 df[['Street', 'City', 'State']] = df['Address'].str.split(',', expand=True)
 # display the dataframe
 df
 
-# custom number of splits
+# CUSTOM NUMBER OF SPLITS
 df['Address'].str.split(',', n=1, expand=True)
 
-# concatenate string columns columns into a single column
-# concat columns by separator
+# CONCATENATE STRING COLUMNS COLUMNS INTO A SINGLE COLUMN. CONCAT COLUMNS BY SEPARATOR
 df['Street'].str.cat(df[['City', 'State']], sep=',')
+
+# READING DATA IN USING PYSPARK
+STG_1_data = spark.read.csv("s3://tfsdl-aigbi-test/S1_09_17_2022data_all.csv", inferSchema=True, header=True)

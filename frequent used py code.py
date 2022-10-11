@@ -35,5 +35,16 @@ df['Address'].str.split(',', n=1, expand=True)
 # CONCATENATE STRING COLUMNS COLUMNS INTO A SINGLE COLUMN. CONCAT COLUMNS BY SEPARATOR
 df['Street'].str.cat(df[['City', 'State']], sep=',')
 
+
+# BUILD A SEARCH STRING
+
+dict_copy = df.to_dict('records')
+search_str = []
+for r in dict_copy:
+    search_str.append(r['column_name'])
+
+
+
+
 # READING DATA IN USING PYSPARK
 STG_1_data = spark.read.csv("s3://tfsdl-aigbi-test/S1_09_17_2022data_all.csv", inferSchema=True, header=True)

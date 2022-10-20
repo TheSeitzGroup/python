@@ -8,6 +8,10 @@ df2 = df.rename({'a': 'X', 'b': 'Y'}, axis='columns')
 #--Alternatively, specify inplace=True:
 df.rename({'a': 'X', 'b': 'Y'}, axis=1, inplace=True)
 
+# FIND ROWS WHERE SUBSTRING/CHARACTERS EXIST
+new_df = df[df["col"].str.contains(word)]
+new_df = df[~df["col"].str.contains(word)] # You can use the invert (~) operator (which acts like a not for boolean data)
+
 # REMOVE ROWS WHERE COLUMN CONTAINS CERTAIN CHARACTERS
 dfa = df_all[(~df_all['Value'].str.contains("x"))]
 dfa
